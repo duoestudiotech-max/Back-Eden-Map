@@ -24,7 +24,7 @@ def create_user_service(user: UserCreate, db: Session, ip_address: str = None, u
         user_agent: User agent do cliente (opcional)
     
     Returns:
-        dict com access_token, refresh_token e dados do usuário
+        dict com access_token, refresh_token e dados completos do usuário
     """
     hashed_password = pwd_context.hash(user.password)
 
@@ -60,7 +60,7 @@ def create_user_service(user: UserCreate, db: Session, ip_address: str = None, u
         # Não interromper criação do usuário se email falhar
         logger.error(f"❌ Erro ao enviar email de boas-vindas: {str(e)}")
     
-    # Gerar tokens para o novo usuário
+    # Gerar tokens para o novo usuário (inclui todos os campos do usuário)
     tokens = generate_tokens_for_user(new_user, db, ip_address, user_agent)
     
     return tokens

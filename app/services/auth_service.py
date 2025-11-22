@@ -145,6 +145,30 @@ def authenticate_user(login: str, password: str, db: Session):
     return user
 
 
+def serialize_user_data(user: User) -> dict:
+    """
+    Serializa os dados do usuário para resposta JSON
+    Converte campos JSON e datetime para formatos adequados
+    
+    Args:
+        user: Objeto User do SQLAlchemy
+    
+    Returns:
+        dict com dados completos do usuário
+    """
+    return {
+        "id": user.id,
+        "login": user.login,
+        "email": user.email,
+        "tag": user.tag,
+        "plan": user.plan,
+        "plan_date": user.plan_date.isoformat() if user.plan_date else None,
+        "selected_feelings": user.selected_feelings if user.selected_feelings else None,
+        "selected_path": user.selected_path,
+        "progress": user.progress if user.progress else None,
+    }
+
+
 def generate_tokens_for_user(user: User, db: Session, ip_address: str = None, user_agent: str = None):
     """
     Gera access token e refresh token para um usuário
@@ -173,13 +197,7 @@ def generate_tokens_for_user(user: User, db: Session, ip_address: str = None, us
         "access_token": access_token,
         "refresh_token": refresh_token,
         "token_type": "bearer",
-        "user": {
-            "id": user.id,
-            "login": user.login,
-            "email": user.email,
-            "tag": user.tag,
-            "plan": user.plan
-        }
+        "user": serialize_user_data(user)
     }
 
 

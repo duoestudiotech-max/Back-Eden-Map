@@ -25,12 +25,27 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class UserData(BaseModel):
+    """Schema completo dos dados do usuário retornados no login/registro"""
+    id: int
+    login: str
+    email: str
+    tag: Optional[str]
+    plan: Optional[str]
+    plan_date: Optional[str]  # ISO format string
+    selected_feelings: Optional[List[str]]
+    selected_path: Optional[str]
+    progress: Optional[Dict]
+
+    class Config:
+        from_attributes = True
+
 class CreateUserResponse(BaseModel):
     """Schema para resposta de criação de usuário (com tokens)"""
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
-    user: dict
+    user: UserData
 
     class Config:
         from_attributes = True
