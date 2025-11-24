@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     RATE_LIMIT_REGISTER: int = 2
     RATE_LIMIT_REFRESH: int = 4
     RATE_LIMIT_LOGIN: int = 6
-    RATE_LIMIT_PASSWORD_RECOVERY: int = 6
+    RATE_LIMIT_PASSWORD_RECOVERY: int = 12
     
     # Brevo Email Service
     BREVO_API_KEY: Optional[str] = None
