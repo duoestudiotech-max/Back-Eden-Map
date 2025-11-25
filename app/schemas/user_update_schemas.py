@@ -1,6 +1,7 @@
 # app/schemas/user_update_schemas.py
 from pydantic import BaseModel, EmailStr, field_validator
 from typing import Optional, Dict
+from datetime import datetime
 
 class UpdateSelectedPathSchema(BaseModel):
     """Schema para atualizar o caminho selecionado"""
@@ -48,6 +49,32 @@ class UpdateTestResultsSchema(BaseModel):
     test_results: TestResultsSchema
 
 
+class ProgressData(BaseModel):
+    """Schema para dados de progresso"""
+    semana: int
+    dia: int
+    
+    @field_validator('semana')
+    @classmethod
+    def validate_semana(cls, v):
+        if not 1 <= v <= 12:
+            raise ValueError('semana deve estar entre 1 e 12')
+        return v
+    
+    @field_validator('dia')
+    @classmethod
+    def validate_dia(cls, v):
+        if not 1 <= v <= 7:
+            raise ValueError('dia deve estar entre 1 e 7')
+        return v
+
+
+class UpdateProgressSchema(BaseModel):
+    """Schema para atualizar progresso do usuário"""
+    email: EmailStr
+    progress: ProgressData
+
+
 class GetUserDataSchema(BaseModel):
     """Schema para buscar dados do usuário"""
     email: EmailStr
@@ -59,6 +86,18 @@ class UserUpdateResponse(BaseModel):
     updated_field: str
     user_id: int
     email: str
+    
+    class Config:
+        from_attributes = True
+
+
+class ProgressResponse(BaseModel):
+    """Schema para resposta de atualização de progresso"""
+    message: str
+    user_id: int
+    email: str
+    progress: dict
+    progress_updated_at: str  # ISO format string
     
     class Config:
         from_attributes = True

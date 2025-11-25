@@ -6,12 +6,15 @@ from app.core.database import get_db
 from app.schemas.user_update_schemas import (
     UpdateSelectedPathSchema,
     UpdateTestResultsSchema,
+    UpdateProgressSchema,
     GetUserDataSchema,
-    UserUpdateResponse
+    UserUpdateResponse,
+    ProgressResponse
 )
 from app.controllers.user_update_controller import (
     update_selected_path_controller,
     update_test_results_controller,
+    update_progress_controller,
     get_user_data_controller
 )
 
@@ -52,7 +55,10 @@ def get_user_data_route(
                 "Motivação": 20,
                 "Relacionamentos": 20
             },
-            "progress": {...}
+            "progress": {
+                "semana": 3,
+                "dia": 5
+            }
         }
         ```
     
@@ -170,3 +176,58 @@ def update_test_results_route(
         404: User not found with this email
     """
     return update_test_results_controller(data, db)
+
+
+@router.put(
+    "/progress",
+    response_model=ProgressResponse,
+    status_code=status.HTTP_200_OK
+)
+def update_progress_route(
+    data: UpdateProgressSchema,
+    db: Session = Depends(get_db)
+):
+    """
+    Atualiza o progresso do usuário (semana e dia) usando email
+    
+    **Valores válidos:**
+    - semana: 1 a 12
+    - dia: 1 a 7
+    
+    Atualiza automaticamente o campo `progress_updated_at` com a data/hora atual.
+    
+    Args:
+        data: Objeto com email e progress (contendo semana e dia)
+    
+    Returns:
+        Confirmação da atualização com progresso e timestamp
+    
+    Example:
+        ```
+        PUT /users/progress
+        {
+            "email": "usuario@email.com",
+            "progress": {
+                "semana": 3,
+                "dia": 5
+            }
+        }
+        
+        Response:
+        {
+            "message": "Progress updated successfully",
+            "user_id": 1,
+            "email": "usuario@email.com",
+            "progress": {
+                "semana": 3,
+                "dia": 5
+            },
+            "progress_updated_at": "2025-11-25T14:30:00.123456"
+        }
+        ```
+    
+    Errors:
+        400: Invalid semana (must be 1-12) or dia (must be 1-7)
+        404: User not found with this email
+    """
+    return update_progress_controller(data, db)

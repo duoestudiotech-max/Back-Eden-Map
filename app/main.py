@@ -1,10 +1,11 @@
+# app/main.py
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware  # ← IMPORTAR CORS
+from fastapi.middleware.cors import CORSMiddleware
 from app.core.init_db import init_db
 from app.routers.user_routes import router as user_router
 from app.routers.auth_routes import router as auth_router
 from app.routers.password_recovery_routes import router as password_recovery_router
-from app.routers.user_update_routes import router as user_update_router 
+from app.routers.user_update_routes import router as user_update_router
 
 # Inicializar banco de dados
 init_db()
@@ -16,31 +17,23 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# ============================================================================
-# 🔥 CONFIGURAÇÃO DE CORS (ADICIONAR ISSO)
-# ============================================================================
-
-# Lista de origens permitidas
+# CORS
 origins = [
-    "http://localhost:8081",      # Expo Web
-    "http://localhost:19006",     # Expo Web alternativo
-    "http://localhost:3000",      # React Web
-    "http://127.0.0.1:8081",      # Alternativo
-    "http://192.168.1.*",         # Sua rede local (ajuste conforme necessário)
-    "*",                          # ⚠️ Para desenvolvimento, aceita tudo
+    "http://localhost:8081",
+    "http://localhost:19006",
+    "http://localhost:3000",
+    "http://127.0.0.1:8081",
+    "http://192.168.1.*",
+    "*",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,              # Permite essas origens
-    allow_credentials=True,             # Permite cookies/autenticação
-    allow_methods=["*"],                # Permite todos os métodos (GET, POST, etc)
-    allow_headers=["*"],                # Permite todos os headers
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
-
-# ============================================================================
-# FIM DA CONFIGURAÇÃO DE CORS
-# ============================================================================
 
 # Incluir rotas
 app.include_router(user_router)
