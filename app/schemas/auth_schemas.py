@@ -19,7 +19,7 @@ class UserData(BaseModel):
     tag: Optional[str]
     plan: Optional[str]
     plan_date: Optional[str]  # ISO format string
-    selected_feelings: Optional[List[str]]
+    selected_path: Optional[List[str]]
     selected_path: Optional[str]
     progress: Optional[Dict]
 

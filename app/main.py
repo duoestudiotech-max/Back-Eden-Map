@@ -1,10 +1,10 @@
-# app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware  # ← IMPORTAR CORS
 from app.core.init_db import init_db
 from app.routers.user_routes import router as user_router
 from app.routers.auth_routes import router as auth_router
 from app.routers.password_recovery_routes import router as password_recovery_router
+from app.routers.user_update_routes import router as user_update_router 
 
 # Inicializar banco de dados
 init_db()
@@ -46,6 +46,7 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(auth_router)
 app.include_router(password_recovery_router)
+app.include_router(user_update_router)
 
 @app.get("/")
 def root():
