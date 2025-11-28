@@ -16,3 +16,7 @@ python-jose[cryptography]==3.3.0
 
 # Para envio de emails via Brevo
 requests==2.31.0
+
+# PostgreSQL (adicionar estas linhas)
+psycopg2-binary==2.9.9
+gunicorn==21.2.0
