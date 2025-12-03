@@ -41,6 +41,12 @@ def login_route(
             "login": "dieghonm",
             "password": "Admin123@"
         }
+        ou
+                POST /auth/login
+        {
+            "login": "dieghonm@gmail.com",
+            "password": "Admin123@"
+        }
         
         Response:
         {

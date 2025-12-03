@@ -604,7 +604,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👥 Equipe
 
-- **Diego Honorato** - [@dieghonm](https://github.com/dieghonm) - dieghonm@gmail.com
+- **Diegho Moraes** - [@dieghonm](https://github.com/dieghonm) - dieghonm@gmail.com
 - **Cava Maga** - cava.maga@gmail.com
 - **Tiago Vital** - tiagovital999@gmail.com
 

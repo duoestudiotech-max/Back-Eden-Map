@@ -54,6 +54,7 @@
 
 #local ou render
 
+
 # app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -87,26 +88,28 @@ app = FastAPI(
 # CORS - configuração para produção e desenvolvimento
 if settings.ENVIRONMENT == "production":
     origins = [
-        "https://seu-frontend.com",  # Substitua pelo seu domínio
+        "https://seu-frontend.com",        # front web (se houver)
         "https://www.seu-frontend.com",
+        "null",                             # apps nativos (React Native, iOS, Android)
     ]
 else:
     origins = [
-        "http://localhost:8081",
-        "http://localhost:19006",
-        "http://localhost:3000",
+        "http://localhost:8081",  # Expo web
+        "http://localhost:19006", # Expo
+        "http://localhost:3000",  # React
         "http://127.0.0.1:8081",
-        "http://192.168.1.*",
-        "*",
+        "*",                      # dev facilitado
+        "null",                   # mobile no emulador
     ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins if settings.ENVIRONMENT == "production" else ["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # Incluir rotas
 app.include_router(user_router)
