@@ -7,6 +7,9 @@ from app.services.user_service import (
     list_users_service
 )
 from app.services.validators import (validate_user_exists, validate_email_exists)
+import logging
+
+logger = logging.getLogger('app.controllers.user_controller')
 
 
 def get_client_info(request: Request):
@@ -29,28 +32,42 @@ def create_user_controller(user: UserCreate, db: Session, request: Request):
     Returns:
         dict com tokens e dados do usuário
     """
-    # Validar se email já existe
-    email_exists = validate_email_exists(user.email, db)
-    if email_exists:
+    try:
+        logger.info(f"📥 Tentando criar usuário: {user.login} ({user.email})")
+        
+        email_exists = validate_email_exists(user.email, db)
+        if email_exists:
+            logger.warning(f"❌ Email já cadastrado: {user.email}")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered"
+            )
+        
+        login_exists = validate_user_exists(user.login, db)
+        if login_exists:
+            logger.warning(f"❌ Login já cadastrado: {user.login}")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Login already registered"
+            )
+        
+        client_info = get_client_info(request)
+        logger.info(f"📍 IP: {client_info['ip_address']}")
+        
+        response = create_user_service(user, db, **client_info)
+        
+        logger.info(f"✅ Usuário criado com sucesso: {user.login}")
+        return response
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ ERRO INESPERADO ao criar usuário: {str(e)}")
+        logger.exception(e)
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Internal server error: {str(e)}"
         )
-    
-    # Validar se login já existe
-    login_exists = validate_user_exists(user.login, db)
-    if login_exists:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Login already registered"
-        )
-    
-    # Extrair informações do cliente
-    client_info = get_client_info(request)
-    
-    # Criar usuário e gerar tokens
-    response = create_user_service(user, db, **client_info)
-    return response
 
 
 def get_user_controller(user_id: int, db: Session):

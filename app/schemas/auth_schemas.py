@@ -1,3 +1,4 @@
+# app/schemas/auth_schemas.py - CORRIGIDO
 from pydantic import BaseModel
 from typing import Optional, List, Dict
 from datetime import datetime
@@ -18,8 +19,8 @@ class UserData(BaseModel):
     email: str
     tag: Optional[str]
     plan: Optional[str]
-    plan_date: Optional[str]  # ISO format string
-    selected_path: Optional[List[str]]
+    plan_date: Optional[str]
+    selected_feelings: Optional[List[str]]
     selected_path: Optional[str]
     progress: Optional[Dict]
 

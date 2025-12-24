@@ -1,3 +1,4 @@
+# app/schemas/user_schemas.py - CORRIGIDO
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List, Dict
 from datetime import datetime
@@ -6,8 +7,8 @@ class UserCreate(BaseModel):
     login: str
     password: str
     email: EmailStr
-    tag: Optional[str] = None
-    plan: Optional[str] = None
+    tag: Optional[str] = "client"
+    plan: Optional[str] = "trial"
 
 class UserResponse(BaseModel):
     id: int
@@ -16,8 +17,8 @@ class UserResponse(BaseModel):
     tag: Optional[str]
     plan: Optional[str]
     plan_date: Optional[datetime]
-    selected_feelings: Optional[List[str]]
-    selected_path: Optional[str]
+    selected_feelings: Optional[List[str]] 
+    selected_path: Optional[str] 
     test_results: Optional[Dict]
     progress: Optional[Dict]
     created_at: datetime
@@ -32,8 +33,8 @@ class UserData(BaseModel):
     email: str
     tag: Optional[str]
     plan: Optional[str]
-    plan_date: Optional[str]  # ISO format string
-    selected_feelings: Optional[List[str]]
+    plan_date: Optional[str]
+    selected_feelings: Optional[List[str]] = None 
     selected_path: Optional[str]
     progress: Optional[Dict]
 

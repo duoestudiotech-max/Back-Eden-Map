@@ -255,10 +255,10 @@ ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=43200
 
 # Rate Limiting
-RATE_LIMIT_REGISTER=2
+RATE_LIMIT_REGISTER=4
 RATE_LIMIT_REFRESH=4
 RATE_LIMIT_LOGIN=16
-RATE_LIMIT_PASSWORD_RECOVERY=12
+RATE_LIMIT_PASSWORD_RECOVERY=20
 
 # Email (Brevo - opcional para desenvolvimento)
 BREVO_API_KEY=sua-api-key-brevo
@@ -291,7 +291,7 @@ A API estará disponível em:
 | `SECRET_KEY` | Chave secreta para JWT | ✅ | - |
 | `ALGORITHM` | Algoritmo JWT | ❌ | `HS256` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Expiração do token (min) | ❌ | `43200` (30 dias) |
-| `RATE_LIMIT_REGISTER` | Limite de cadastros/hora | ❌ | `2` |
+| `RATE_LIMIT_REGISTER` | Limite de cadastros/hora | ❌ | `4` |
 | `RATE_LIMIT_LOGIN` | Limite de logins/hora | ❌ | `16` |
 | `RATE_LIMIT_REFRESH` | Limite de refresh/hora | ❌ | `4` |
 | `RATE_LIMIT_PASSWORD_RECOVERY` | Limite de recuperação/hora | ❌ | `12` |
