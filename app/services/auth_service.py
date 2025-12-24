@@ -175,6 +175,7 @@ def serialize_user_data(user: User) -> dict:
         "tag": user.tag,
         "plan": user.plan,
         "plan_date": user.plan_date.isoformat() if user.plan_date else None,
+        "selected_feelings": user.selected_feelings,
         "selected_path": user.selected_path,
         "progress": user.progress if user.progress else None,
     }
